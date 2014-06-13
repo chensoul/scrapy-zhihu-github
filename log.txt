@@ -1,0 +1,13 @@
+爬取github数据：
+
+1.按照joined 降序 按仓库数查询北京的所有用户
+
+    basic_url ="https://github.com/search?ref=simplesearch&s=joined&type=Users"
+
+    参考数分别为1、2....49，以及大于49
+
+2. 按照joined 升序 按仓库数查询北京的所有用户
+
+   basic_url ="https://github.com/search?ref=simplesearch&s=joined&type=Users"
+
+   参考数分别为1、2....6，以及大于49
