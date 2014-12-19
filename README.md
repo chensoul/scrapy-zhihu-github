@@ -3,6 +3,17 @@ scrapy-zhihu-github
 
 用于爬取zhihu和github的代码，数据存储于mongodb。
 
+mongodb中数据库为zhihu，端口默认，存在以下collection：
+
+ - zh_user：知乎用户
+ - zh_ask：知乎问题
+ - zh_answer：知乎回答
+ - zh_followee：知乎关注列表
+ - zh_follower：知乎粉丝列表
+ - gh_user：github 用户
+ - gh_repo：github 仓库
+
+
 # zhihu
 
 数据存储的表结构，请参考 [items.py](https://github.com/javachen/scrapy-zhihu-github/blob/master/zhihu/items.py)
@@ -39,7 +50,7 @@ update_time datetime # 信息更新时间，如 2014-05-17 11:15:00
 
 采集步骤：
 
-先运行下面代码，采集用户信息：
+先运行下面代码，采集用户信息以及用户的关注和粉丝列表：
 
 ```python
 scrapy crawl zhihu_user
@@ -53,10 +64,8 @@ scrapy crawl zhihu_ask
 scrapy crawl zhihu_answer
 ```
 
-关于粉丝列表和关注列表的采集尚未实现，你可以参考上面代码自己实现。
 
 
 # github
 
 todo
-
