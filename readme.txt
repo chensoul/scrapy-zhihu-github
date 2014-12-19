@@ -31,3 +31,10 @@ db.zh_user.find({"industry":"电子商务"}).count()
 db.zh_user.find({"industry":"电子游戏"}).count()
 db.zh_user.find({"industry":"计算机软件"}).count()
 db.zh_user.find({"industry":"计算机硬件"}).count()
+
+
+
+./mongoexport -d zhihu -c zh_user --csv -f _id,url,username,nickname,location,industry,sex,description,sinaweibo,tencentweibo,ask_num,answer_num,post_num,collection_num,log_num,agree_num,thank_num,fav_num,share_num,followee_num,follower_num,update_time  --out ~/tmp/zh_user.csv
+
+
+./mongoexport -d zhihu -c gh_user --csv -f _id,url,user_id,username,nickname,type,location,update_time,email,website,member_num,company,join_date,followee_num,follower_num,star_num,repo_num,org_num  --out ~/tmp/gh_user.csv
