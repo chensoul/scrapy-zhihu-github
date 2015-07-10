@@ -1,32 +1,26 @@
 import random
 
-from scrapy import log
-
 from zhihu.misc.proxy import PROXIES
 from zhihu.misc.agents import AGENTS
-
+import logging
 
 class CustomHttpProxyMiddleware(object):
 
     def process_request(self, request, spider):
-        # TODO implement complex proxy providing algorithm
         if self.use_proxy(request):
-            p = random.choice(PROXIES)
-
-            try:
-                request.meta['proxy'] = "http://%s" % p['ip_port']
-            except Exception, e:
-                log.msg("Exception %s" % e, _level=log.CRITICAL)
+            proxy =  random.choice(PROXIES)
+            logging.info('Using proxy ' + proxy['ip_port'])
+            request.meta['proxy'] = 'http://' + proxy['ip_port']
 
     def use_proxy(self, request):
-        """
-        using direct download for depth <= 2
-        using proxy with probability 0.3
-        """
+        if 'proxy' in request.meta:
+            logging.info('Proxy has already been used')
+            return
+
         if "depth" in request.meta and int(request.meta['depth']) <= 2:
             return False
-        i = random.randint(1, 10)
-        return i <= 2
+
+        return random.randint(0, 99) >=30
 
 
 class CustomUserAgentMiddleware(object):

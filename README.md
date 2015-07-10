@@ -46,8 +46,6 @@ follower_num int, # 被关注数（粉丝），如 319529
 update_time datetime # 信息更新时间，如 2014-05-17 11:15:00
 ```
 
-采集步骤：
-
 先运行下面代码，采集用户信息以及用户的关注和粉丝列表：
 
 ```python
@@ -70,23 +68,29 @@ github 用户表结构（db.zhihu.gh_user）为：
 
 ```
 _id, #用户id
-url,
-username 
-nickname 
-user_id 
-type 
+url, #主页url
+username,#用户名
+nickname,#昵称 
+user_id,#用户id
+type,#类型：1,组织；0,个人 
 
-company 
-location 
-website 
-email 
+company,#公司
+location,#位置 
+website,#网站 
+email,#邮箱 
 update_time,#爬虫更新时间
 
-join_date 
-followee_num 
-follower_num 
-star_num 
-organizations,加入的组织
+join_date,#加入时间
+followee_num,#关注数
+follower_num,#粉丝数 
+star_num,#星数 
+organizations,#加入的组织
 
-member_num
+member_num,#组织成员数
+```
+
+先运行下面代码，采集用户信息：
+
+```python
+scrapy crawl github_user
 ```

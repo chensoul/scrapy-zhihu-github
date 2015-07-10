@@ -6,6 +6,8 @@ from zhihu.items import GithubUserItem
 
 from datetime import datetime
 import urllib
+import random
+import time
 import sys
 
 reload(sys)
@@ -18,31 +20,43 @@ class GithubUserSpider(CrawlSpider):
     allowed_domains = ['github.com']
     start_urls = []
 
-    basic_url ="https://github.com/search?o=desc&ref=simplesearch&s=&type=Users"
+    basic_url ="https://github.com/search?o=desc&p=1&q=location%3AXXXX&ref=simplesearch&s=&type=Users"
 
-    #citys=["china","beijing","shanghai","hangzhou","guangzhou","shenzhen","dalian","xian",
-    # "nanjing","wuhan","zhuhai","tianjing","chengdu","sichuan","chongqing","jinan","qingdao","kunming",
-    # "shijiazhuang","ningbo","wuxi","xiamen","changsha","guilin","suzhou","hainan","changchun","fuzhou",
-    # "guiyang","hefei","haikou"]
-    citys=["fuzhou"]
+    citys=["china","beijing","shanghai","hangzhou","guangzhou","shenzhen","dalian","xian",
+    "nanjing","wuhan","zhuhai","tianjing","chengdu","sichuan","chongqing","jinan","qingdao","kunming",
+    "shijiazhuang","ningbo","wuxi","xiamen","changsha","guilin","suzhou","hainan","changchun","fuzhou",
+    "guiyang","hefei","haikou"]
+    # citys=["sichuan"]
 
     for city in citys:
-        start_urls.append(basic_url +"&q=location%3A"+city)
+        start_urls.append(basic_url.replace("XXXX",city))
 
     def __init__(self,  *a,  **kwargs):
         super(GithubUserSpider, self).__init__(*a, **kwargs)
+        self.url_seen=set()
 
     def parse(self, response):
-        selector = Selector(response)
-        links = selector.xpath('//div[@id="user_search_results"]/div[@class="user-list"]/div/a/@href').extract()
+        print response.url
 
-        for url in links:
-            yield  self.make_requests_from_url(host+url).replace(callback=self.parse_user)
+        selector = Selector(response)
 
         #获取下一页
-        next_page = ''.join(selector.xpath('//div[@class="pagination"]/a[@class="next_page"]/@href').extract())
-        if next_page:
-            yield self.make_requests_from_url(host+next_page)
+        # next_page = ''.join(selector.xpath('//div[@class="pagination"]/a[@class="next_page"]/@href').extract())
+        # if next_page:
+        #     yield self.make_requests_from_url(host+next_page)
+
+        #获取所以其他分页页面，并去重
+        next_pages = selector.xpath('//div[@class="pagination"]/a/@href').extract()
+
+        for next_page in next_pages:
+            if next_page not in self.url_seen:
+                self.url_seen.add(next_page)
+                time.sleep(random.random())
+                yield self.make_requests_from_url(host+next_page)
+
+        links = selector.xpath('//div[@id="user_search_results"]/div[@class="user-list"]/div/a/@href').extract()
+        for url in links:
+            yield  self.make_requests_from_url(host+url).replace(callback=self.parse_user)
 
     def parse_user(self, response):
         selector = Selector(response)
@@ -76,9 +90,12 @@ class GithubUserSpider(CrawlSpider):
 
             nums = selector.xpath('//div[@class="column one-fourth vcard"]/div[@class="vcard-stats"]/a/strong/text()').extract()
             print user['username']+" "+str(nums)
+
             user['follower_num'] = nums[0]
             user['star_num'] = nums[1]
             user['followee_num'] = nums[2]
+
             user['organizations'] = selector.xpath('//div[@class="clearfix"]/a[@itemprop="follows"]/@href').extract()
+
 
         yield user

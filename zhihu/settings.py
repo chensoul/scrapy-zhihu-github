@@ -6,7 +6,7 @@ SPIDER_MODULES = ['zhihu.spiders']
 NEWSPIDER_MODULE = 'zhihu.spiders'
 
 LOG_FILE = 'zhihu.log'
-LOG_LEVEL= 'ERROR'
+LOG_LEVEL= 'INFO'
 
 COOKIES_DEBUG = False
 RETRY_ENABLED = False
@@ -14,13 +14,12 @@ REDIRECT_ENABLED = False
 
 CONCURRENT_ITEMS = 300
 CONCURRENT_REQUESTS = 100
-CONCURRENT_REQUESTS_PER_DOMAIN = 16
-CONCURRENT_REQUESTS_PER_IP = 20
+CONCURRENT_REQUESTS_PER_IP = 30
 
 DNSCACHE_ENABLED = True
 
-DOWNLOAD_DELAY = 3
-DOWNLOAD_TIMEOUT = 15
+DOWNLOAD_DELAY = 0.8
+DOWNLOAD_TIMEOUT = 30
 
 ITEM_PIPELINES = {
     #'zhihu.pipelines.DoNothingPipeline': 300,
@@ -29,8 +28,9 @@ ITEM_PIPELINES = {
     }
 
 DOWNLOADER_MIDDLEWARES = {
-    'zhihu.misc.middleware.CustomHttpProxyMiddleware': 543,
-    #'zhihu.misc.middleware.CustomUserAgentMiddleware': 545,
+    #'zhihu.misc.middleware.CustomHttpProxyMiddleware': 80,
+    #'zhihu.misc.middleware.CustomUserAgentMiddleware': 81,
+    'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware':100
     }
 
 '''

@@ -9,10 +9,8 @@ from zhihu.items import ZhihuUserItem, ZhihuAskItem, ZhihuFollowersItem, ZhihuFo
     OutofmemoryUserItem
 
 import json
-from scrapy.conf import settings
 
 class DoNothingPipeline(object):
-
     def process_item(self, item, spider):
         return item
 
@@ -24,22 +22,21 @@ class JsonWithEncodingPipeline(object):
         self.zh_ask_file = open('./data/zh_ask.txt', 'wb')
         self.zh_answer_file = open('./data/zh_answer.txt', 'wb')
 
+        self.gh_user_file = open('./data/gh_user.txt', 'wb')
+
     def process_item(self, item, spider):
         if  isinstance(item, ZhihuUserItem):
             self.zh_user_file.write(json.dumps(dict(item), ensure_ascii=False).encode('utf8') + '\n')
-
         elif isinstance(item, ZhihuAskItem):
             self.zh_ask_file.write(json.dumps(dict(item), ensure_ascii=False).encode('utf8') + '\n')
-
         elif isinstance(item, ZhihuFollowersItem):
             self.zh_follower_file.write(json.dumps(dict(item), ensure_ascii=False).encode('utf8') + '\n')
-
         elif isinstance(item, ZhihuFolloweesItem):
             self.zh_followee_file.write(json.dumps(dict(item), ensure_ascii=False).encode('utf8') + '\n')
-
         elif isinstance(item, ZhihuAnswerItem):
             self.zh_answer_file.write(json.dumps(dict(item), ensure_ascii=False).encode('utf8') + '\n')
-
+        elif isinstance(item, GithubUserItem):
+            self.gh_user_file.write(json.dumps(dict(item), ensure_ascii=False).encode('utf8') + '\n')
         return item
 
     def spider_closed(self, spider):
@@ -48,6 +45,7 @@ class JsonWithEncodingPipeline(object):
         self.zh_follower_file.close()
         self.zh_ask_file.close()
         self.zh_answer_file.close()
+        self.gh_user_file.close()
 
 
 class MongoDBPipeline(object):
