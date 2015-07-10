@@ -16,12 +16,10 @@ mongodb中数据库为zhihu，端口默认，存在以下collection：
 
 # zhihu
 
-数据存储的表结构，请参考 [items.py](https://github.com/javachen/scrapy-zhihu-github/blob/master/zhihu/items.py)
-
 zhihu 用户表结构（db.zhihu.zh_user）为：
 
 ```
-_id int, # 用户id，自增，非空
+_id int, # 用户id
 url string,
 username string, # 用户名，如 zhouyuan
 nickname string, # 昵称，如 周源
@@ -68,4 +66,27 @@ scrapy crawl zhihu_answer
 
 # github
 
-todo
+github 用户表结构（db.zhihu.gh_user）为：
+
+```
+_id, #用户id
+url,
+username 
+nickname 
+user_id 
+type 
+
+company 
+location 
+website 
+email 
+update_time,#爬虫更新时间
+
+join_date 
+followee_num 
+follower_num 
+star_num 
+organizations,加入的组织
+
+member_num
+```

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-from scrapy.spider import Spider
+from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from scrapy.http import Request,FormRequest
 from zhihu.items import ZhihuUserItem, ZhihuAskItem, ZhihuFollowersItem, ZhihuFolloweesItem, ZhihuAnswerItem

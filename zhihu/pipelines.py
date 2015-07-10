@@ -5,7 +5,8 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-from zhihu.items import ZhihuUserItem, ZhihuAskItem, ZhihuFollowersItem, ZhihuFolloweesItem, ZhihuAnswerItem,GithubUserItem,GithubRepoItem
+from zhihu.items import ZhihuUserItem, ZhihuAskItem, ZhihuFollowersItem, ZhihuFolloweesItem, ZhihuAnswerItem,GithubUserItem,GithubRepoItem, \
+    OutofmemoryUserItem
 
 import json
 from scrapy.conf import settings
@@ -61,45 +62,45 @@ class MongoDBPipeline(object):
         self.zh_follower_col = self.db["zh_follower"]
 
         self.gh_user_col = self.db["gh_user"]
+        self.om_user_col = self.db["om_user"]
         self.gh_repo_col = self.db["gh_repo"]
 
-    def saveOrUpdate(self,collection,item,spider):
+    def saveOrUpdate(self,collection,item):
         _id= dict(item).get("_id")
         if _id is not None:
             tmp=collection.find_one({"_id":_id})
+            #数据库不存在
             if tmp is None:
                 collection.insert(dict(item))
-                return
-
-            if dict(tmp).get("followees") is not None:
-                collection.update({"_id":_id},{'$addToSet':{"followees":{'$each':dict(item).get("followees")}}})
-            elif dict(tmp).get("followers") is not None:
-                collection.update({"_id":_id},{'$addToSet':{"followers":{'$each':dict(item).get("followers")}}})
-
+            else:
+                collection.update({"_id":_id},dict(item))
         else:
             collection.insert(dict(item))
 
     def process_item(self, item, spider):
         if isinstance(item, ZhihuUserItem):
-            self.saveOrUpdate(self.zh_user_col,item,spider)
+            self.saveOrUpdate(self.zh_user_col,item)
 
         elif isinstance(item, ZhihuAskItem):
-            self.saveOrUpdate(self.zh_ask_col,item,spider)
+            self.saveOrUpdate(self.zh_ask_col,item)
 
         elif isinstance(item, ZhihuFollowersItem):
-            self.saveOrUpdate(self.zh_follower_col,item,spider)
+            self.saveOrUpdate(self.zh_follower_col,item)
 
         elif isinstance(item, ZhihuFolloweesItem):
-            self.saveOrUpdate(self.zh_followee_col,item,spider)
+            self.saveOrUpdate(self.zh_followee_col,item)
 
         elif isinstance(item, ZhihuAnswerItem):
-            self.saveOrUpdate(self.zh_answer_col,item,spider)
+            self.saveOrUpdate(self.zh_answer_col,item)
 
         elif isinstance(item, GithubUserItem):
-            self.saveOrUpdate(self.gh_user_col,item,spider)
+            self.saveOrUpdate(self.gh_user_col,item)
+
+        elif isinstance(item, OutofmemoryUserItem):
+            self.saveOrUpdate(self.om_user_col,item)
 
         elif isinstance(item, GithubRepoItem):
-            self.saveOrUpdate(self.gh_repo_col,item,spider)
+            self.saveOrUpdate(self.gh_repo_col,item)
 
         return item
 

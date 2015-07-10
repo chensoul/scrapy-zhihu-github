@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from scrapy.selector import Selector
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.http import Request,FormRequest
 from zhihu.items import ZhihuUserItem, ZhihuAskItem, ZhihuFollowersItem, ZhihuFolloweesItem, ZhihuAnswerItem
 

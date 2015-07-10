@@ -8,25 +8,35 @@
 from scrapy.item import Item, Field
 
 class GithubUserItem(Item):
-    _id=Field()
-    url=Field()
-    user_id  = Field()
+    #通用字段
+    _id = Field()
+    url = Field()
     username = Field()
     nickname = Field()
+    user_id = Field()
     type = Field()
-    location = Field()
-    update_time = Field()
-    email=Field()
-    website=Field()
-    member_num=Field()
 
     company = Field()
+    location = Field()
+    website = Field()
+    email = Field()
+    update_time = Field()
+
+    #用户
     join_date = Field()
+
     followee_num = Field()
     follower_num = Field()
     star_num = Field()
-    repo_num = Field()
-    org_num = Field()
+    organizations = Field()
+
+    #单位
+    member_num=Field()
+
+class OutofmemoryUserItem(Item):
+    _id = Field()
+    weibo = Field()
+    twitter = Field()
 
 class GithubRepoItem(Item):
     _id=Field()
@@ -39,7 +49,7 @@ class GithubRepoItem(Item):
     watch_num = Field()
     fork_num = Field()
     language = Field()
-    type = Field() #Mirrors Forks Sources
+    type = Field()
     commit_num = Field()
     branch_num = Field()
     tag_num = Field()

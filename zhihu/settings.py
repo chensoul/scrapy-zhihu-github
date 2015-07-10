@@ -1,36 +1,26 @@
 # -*- coding:utf-8 -*-
 
-# Scrapy settings for zhihu project
-#
-# For simplicity, this file contains only the most important settings by
-# default. All the other settings are documented here:
-#
-#     http://doc.scrapy.org/en/latest/topics/settings.html
-#
-
 BOT_NAME = 'zhihu'
 
 SPIDER_MODULES = ['zhihu.spiders']
 NEWSPIDER_MODULE = 'zhihu.spiders'
 
 LOG_FILE = 'zhihu.log'
-LOG_LEVEL= 'INFO'
-
-SCHEDULER_ORDER = 'BFO'
-
-RETRY_ENABLED = False
-
-CONCURRENT_ITEMS = 100
-CONCURRENT_REQUESTS = 1
-
-DNSCACHE_ENABLED = True
-#DUPEFILTER_CLASS = 'scr'
+LOG_LEVEL= 'ERROR'
 
 COOKIES_DEBUG = False
+RETRY_ENABLED = False
+REDIRECT_ENABLED = False
+
+CONCURRENT_ITEMS = 300
+CONCURRENT_REQUESTS = 100
+CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_IP = 20
+
+DNSCACHE_ENABLED = True
 
 DOWNLOAD_DELAY = 3
 DOWNLOAD_TIMEOUT = 15
-RANDOMIZE_DOWNLOAD_DELAY = True
 
 ITEM_PIPELINES = {
     #'zhihu.pipelines.DoNothingPipeline': 300,
@@ -39,8 +29,8 @@ ITEM_PIPELINES = {
     }
 
 DOWNLOADER_MIDDLEWARES = {
-    #'zhihu.misc.middleware.CustomHttpProxyMiddleware': 543,
-    'zhihu.misc.middleware.CustomUserAgentMiddleware': 545,
+    'zhihu.misc.middleware.CustomHttpProxyMiddleware': 543,
+    #'zhihu.misc.middleware.CustomUserAgentMiddleware': 545,
     }
 
 '''

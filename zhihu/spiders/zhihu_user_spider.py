@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 
 from scrapy.selector import Selector
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.http import Request,FormRequest
 from zhihu.items import ZhihuUserItem, ZhihuAskItem, ZhihuFollowersItem, ZhihuFolloweesItem, ZhihuAnswerItem
 
@@ -28,11 +28,11 @@ class ZhihuLoginSpider(CrawlSpider):
 
     #使用rule时候，不要定义parse方法
     rules = (
-        Rule(SgmlLinkExtractor(allow=("/lookup/class/[^/]+/?$", )), follow=True,callback='parse_item'),
-        Rule(SgmlLinkExtractor(allow=("/lookup/class/$", )), follow=True,callback='parse_item'),
-        Rule(SgmlLinkExtractor(allow=("/lookup/people", )),  callback='parse_item'),
-        #Rule(SgmlLinkExtractor(allow=("/people/[^/]+/?$", )),  callback='parse_user'),
-        #Rule(SgmlLinkExtractor(allow=("/people/$", )),  callback='parse_user')
+        Rule(LinkExtractor(allow=("/lookup/class/[^/]+/?$", )), follow=True,callback='parse_item'),
+        Rule(LinkExtractor(allow=("/lookup/class/$", )), follow=True,callback='parse_item'),
+        Rule(LinkExtractor(allow=("/lookup/people", )),  callback='parse_item'),
+        #Rule(LinkExtractor(allow=("/people/[^/]+/?$", )),  callback='parse_user'),
+        #Rule(LinkExtractor(allow=("/people/$", )),  callback='parse_user')
     )
 
     def __init__(self,  *a,  **kwargs):

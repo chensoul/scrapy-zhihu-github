@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 
 from scrapy.selector import Selector
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.http import Request,FormRequest
 
 from zhihu.settings import *
@@ -14,8 +14,8 @@ class ZhihuLoginSpider(CrawlSpider):
     start_urls = ['http://www.zhihu.com/lookup/class/']
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=r'search/')),
-        Rule(SgmlLinkExtractor(allow=r'')),
+        Rule(LinkExtractor(allow=r'search/')),
+        Rule(LinkExtractor(allow=r'')),
     )
 
     def __init__(self):

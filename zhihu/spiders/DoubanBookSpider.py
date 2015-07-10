@@ -3,17 +3,11 @@ import json
 
 
 from scrapy.selector import Selector
-try:
-    from scrapy.spider import Spider
-except:
-    from scrapy.spider import BaseSpider as Spider
-from scrapy.utils.response import get_base_url
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor as sle
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 
 
 from zhihu.items import *
-from zhihu.misc.log import *
 
 
 class DoubanBookSpider(CrawlSpider):
@@ -23,9 +17,9 @@ class DoubanBookSpider(CrawlSpider):
         "http://book.douban.com/tag/"
     ]
     rules = [
-        Rule(sle(allow=("/subject/\d+/?$")), callback='parse_2'),
-        Rule(sle(allow=("/tag/[^/]+/?$", )), follow=True),
-        Rule(sle(allow=("/tag/$", )), follow=True),
+        Rule(LinkExtractor(allow=("/subject/\d+/?$")), callback='parse_2'),
+        Rule(LinkExtractor(allow=("/tag/[^/]+/?$", )), follow=True),
+        Rule(LinkExtractor(allow=("/tag/$", )), follow=True),
         ]
 
     def parse_2(self, response):
@@ -44,8 +38,9 @@ class DoubanBookSpider(CrawlSpider):
 
     def parse_1(self, response):
         # url cannot encode to Chinese easily.. XXX
-        info('parsed ' + str(response))
+        #info('parsed ' + str(response))
+        print 1
 
     def _process_request(self, request):
-        info('process ' + str(request))
+        #info('process ' + str(request))
         return request

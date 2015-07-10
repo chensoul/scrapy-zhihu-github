@@ -1,8 +1,6 @@
 from scrapy.selector import HtmlXPathSelector
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.http import FormRequest, Request
-from scrapy import log
 class AmazonSpider(CrawlSpider):
     name = 'AmazonSpider'
     allowed_domains = ['amazon.cn']
