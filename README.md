@@ -3,15 +3,15 @@ scrapy-zhihu-github
 
 用于爬取zhihu和github的代码，数据存储于mongodb。
 
-mongodb中数据库为zhihu，端口默认，存在以下collection：
+mongodb中数据库为`zhihu`，端口默认，存在以下collection：
 
- - zh_user：知乎用户
- - zh_ask：知乎问题
- - zh_answer：知乎回答
- - zh_followee：知乎关注列表
- - zh_follower：知乎粉丝列表
- - gh_user：github 用户
- - gh_repo：github 仓库
+ - `zh_user`：知乎用户
+ - `zh_ask`：知乎问题
+ - `zh_answer`：知乎回答
+ - `zh_followee`：知乎关注列表
+ - `zh_follower`：知乎粉丝列表
+ - `gh_user`：github 用户
+ - `gh_repo`：github 仓库
 
 
 # zhihu
@@ -93,4 +93,19 @@ member_num,#组织成员数
 
 ```python
 scrapy crawl github_user
+```
+
+爬取用户信息以及粉丝用户:
+
+```python
+scrapy crawl github_follower
+```
+
+查看爬取的结果:
+
+```
+> use zhihu
+switched to db zhihu
+> db.gh_user.count()
+126135
 ```
