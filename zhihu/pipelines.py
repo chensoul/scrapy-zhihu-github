@@ -50,8 +50,6 @@ class JsonWithEncodingPipeline(object):
 
 class MongoDBPipeline(object):
     def __init__(self):
-        self.ids_seen=set()
-
         import pymongo
         connection = pymongo.Connection("localhost", 27017)
         self.db = connection["zhihu"]
@@ -67,18 +65,16 @@ class MongoDBPipeline(object):
 
     def saveOrUpdate(self,collection,item):
         _id= dict(item).get("_id")
-        if _id not in self.url_seen:
-            self.url_seen.add(_id)
-        else:
-            return
 
         if _id is not None:
             tmp=collection.find_one({"_id":_id})
             #数据库不存在
             if tmp is None:
+                print _id
                 collection.insert(dict(item))
-            else:
-                collection.update({"_id":_id},dict(item))
+                #TODO 暂时只插入不更新
+            # else:
+            #     collection.update({"_id":_id},dict(item))
         else:
             collection.insert(dict(item))
 
