@@ -3,18 +3,24 @@ scrapy-zhihu-github
 
 用于爬取zhihu和github的代码，数据存储于mongodb。
 
-mongodb中数据库为`zhihu`，端口默认，存在以下collection：
 
- - `zh_user`：知乎用户
- - `zh_ask`：知乎问题
- - `zh_answer`：知乎回答
- - `zh_followee`：知乎关注列表
- - `zh_follower`：知乎粉丝列表
- - `gh_user`：github 用户
- - `gh_repo`：github 仓库
+# Install
 
+Scrapy安装见[使用Scrapy抓取数据](http://blog.javachen.com/2014/05/24/using-scrapy-to-cralw-data.html)。
+
+Mongodb安装在本机，数据库为`zhihu`，端口默认，存在以下collection：
+              
+   - `zh_user`：知乎用户
+   - `zh_ask`：知乎问题
+   - `zh_answer`：知乎回答
+   - `zh_followee`：知乎关注列表
+   - `zh_follower`：知乎粉丝列表
+   - `gh_user`：github 用户
+   - `gh_repo`：github 仓库
 
 # zhihu
+
+Scrapy爬取知乎数据，说明见[使用Scrapy爬取知乎网站](http://blog.javachen.com/2014/06/08/using-scrapy-to-cralw-zhihu.html)。
 
 zhihu 用户表结构（db.zhihu.zh_user）为：
 

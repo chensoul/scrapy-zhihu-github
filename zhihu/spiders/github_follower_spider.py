@@ -21,7 +21,7 @@ class GithubUserSpider(CrawlSpider):
     start_urls = []
     basic_url ="https://github.com/search?p=1&q=location%3AXXXX&ref=simplesearch&s=&type=Users"
     #citys=["中国","北京","上海","广州","杭州","深圳","武汉","南京","大连","天津","苏州","成都","长沙","西安"]
-    citys=["中国","北京","上海","广州","杭州","深圳","武汉"]
+    citys=["上海","广州"]
 
     for city in citys:
         start_urls.append(basic_url.replace("XXXX",city)+"&o=desc")
